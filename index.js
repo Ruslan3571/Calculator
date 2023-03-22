@@ -4,7 +4,7 @@ let sign = "";
 let finish = false;
 
 const digit = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-const action = ["-", "+", "X", "/"];
+const action = ["-", "+", "%", "X", "/"];
 
 const out = document.querySelector(".calc-screen p");
 
@@ -43,11 +43,33 @@ document.querySelector(".buttons").onclick = (event) => {
     }
     return;
   }
-
+  // якщо нажата кнопка %
+  if (key === "%") {
+    if (b === "") {
+      a = +a / 100;
+      out.textContent = a;
+    } else {
+      b = (+b / 100) * a;
+      out.textContent = b;
+    }
+    return;
+  }
   // якщо нажата кнопка + - / *
   if (action.includes(key)) {
     sign = key;
     out.textContent = sign;
+    return;
+  }
+
+  // якщо нажата кнопка +/-
+  if (key === "+/-") {
+    if (b === "") {
+      a = parseFloat(a) * -1;
+      out.textContent = a;
+    } else {
+      b = parseFloat(b) * -1;
+      out.textContent = b;
+    }
     return;
   }
   // якщо нажата кнопка =
@@ -72,6 +94,13 @@ document.querySelector(".buttons").onclick = (event) => {
           return;
         }
         a = a / b;
+        break;
+      case "%":
+        if (b === "") {
+          a = +a / 100;
+        } else {
+          b = (+b / 100) * a;
+        }
         break;
     }
     finish = true;
